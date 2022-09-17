@@ -1,10 +1,15 @@
+using Microsoft.EntityFrameworkCore;
 using QuizGiver;
 using RestClientLib;
 
 var builder = WebApplication.CreateBuilder(args);
 
+ConfigurationManager configuration = builder.Configuration;
+
 // Add services to the container.
 
+// builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=QuizAPI;Trusted_Connection=True;"));
+builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(configuration.GetConnectionString("QuizDB")));
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IJsonToModel, JsonToModel>();
 builder.Services.AddSingleton<Token>();
