@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Extensions;
+using QuizGiver.Data;
 using QuizGiver.Models;
 using QuizGiver.Repository;
 using RestClientLib;
@@ -18,6 +20,7 @@ namespace QuizGiver.Controllers
         private readonly Token _token;
         private readonly IQuestionRepository _questionRepository;
         private bool finish;
+        private Category category;
 
         public QuestionController(IJsonToModel questions, Token token, IQuestionRepository questionRepository)
         {
@@ -40,6 +43,8 @@ namespace QuizGiver.Controllers
                 Questions listOfQuestions = await this._questions.GetQuestions(category, difficulty, count, _token.SessionToken);
                 if (listOfQuestions.ResponseCode == 0)
                 {
+                    this.category = category;
+                    Console.WriteLine($"ENUM: {this.category}");
                     return Ok(listOfQuestions);
                 }
                 else if (listOfQuestions.ResponseCode == 4)
@@ -59,5 +64,23 @@ namespace QuizGiver.Controllers
             var questions = await _questionRepository.GetAllQuestionAsync();
             return Ok(questions);
         }
+        
+        [HttpGet]
+        [Route("db/category")]
+        public async Task<IActionResult> GetQuestionFromDbBasedOnCategory()
+        {
+            Desc e = Desc.computer;
+            Console.WriteLine(e.DisplayName());
+             var questions = await _questionRepository.GetQuestionBasedOnCategory(this.category.DisplayName());
+            return Ok(questions);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddQuestion(QuestionModel q)
+        {
+            await _questionRepository.AddQuestion(q);
+            return Ok();
+        }
+
     }
 }
