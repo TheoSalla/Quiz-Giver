@@ -59,5 +59,12 @@ namespace QuizGiver.Controllers
             var questions = await _questionRepository.GetAllQuestionAsync();
             return Ok(questions);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddQuestion(QuestionModel q)
+        {
+            await _questionRepository.AddQuestion(q);
+            return Ok();
+        }
     }
 }
