@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using QuizGiver;
+using QuizGiver.Repository;
 using RestClientLib;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +12,10 @@ ConfigurationManager configuration = builder.Configuration;
 // builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=QuizAPI;Trusted_Connection=True;"));
 builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(configuration.GetConnectionString("QuizDB")));
 builder.Services.AddControllers();
+builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
 builder.Services.AddSingleton<IJsonToModel, JsonToModel>();
 builder.Services.AddSingleton<Token>();
+
 //builder.Services.AddTransient<Token>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
