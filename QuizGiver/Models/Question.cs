@@ -4,8 +4,9 @@ namespace QuizGiver.Models
 {
     public class Question
     {
-        public string Category { get; set; }
-        public string Difficulty { get; set; }
+        public string? Category { get; set; }
+        public string? Difficulty { get; set; }
+        public int? Count { get; set; }
 
     }
 }
