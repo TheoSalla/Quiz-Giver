@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Extensions;
-using QuizGiver.Data;
 using QuizGiver.Models;
 using QuizGiver.Repository;
 using RestClientLib;
@@ -69,10 +68,10 @@ namespace QuizGiver.Controllers
         [Route("db/category")]
         public async Task<IActionResult> GetQuestionFromDbBasedOnCategory()
         {
-            Desc e = Desc.computer;
-            Console.WriteLine(e.DisplayName());
-             var questions = await _questionRepository.GetQuestionBasedOnCategory(this.category.DisplayName());
-            return Ok(questions);
+            //Desc e = Desc.computer;
+            //Console.WriteLine(e.DisplayName());
+            // var questions = await _questionRepository.GetQuestionBasedOnCategory(this.category.DisplayName());
+            return Ok();
         }
 
         [HttpPost]
