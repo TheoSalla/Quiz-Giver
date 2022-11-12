@@ -25,6 +25,7 @@ namespace QuizGiver.Controllers
         [HttpGet]
         public async Task<IActionResult> GetQuestion([FromQuery] Question q)
         {
+            Console.WriteLine($"Token: {token.SessionToken}");
             RestClientLib.Questions listOfQuestions = new();
             if(Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty ))
             {
@@ -40,8 +41,7 @@ namespace QuizGiver.Controllers
                 }
             }
             return BadRequest();
-
-            //var questionsFromApi = _quiz.GetQuestions(Enum.Parse<Category>(category.ToLower()), Difficulty.easy, 2, token.SessionToken);
+;
         }
     }
 }
