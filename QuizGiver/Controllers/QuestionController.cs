@@ -28,8 +28,8 @@ namespace QuizGiver.Controllers
             RestClientLib.Questions listOfQuestions = new();
             if(Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty ))
             {
-
-                listOfQuestions = await this.questions.GetQuestions(category, difficulty, 10, token.SessionToken);
+                int count = q.Count ?? 10;
+                listOfQuestions = await this.questions.GetQuestions(category, difficulty, count, token.SessionToken);
                 if (listOfQuestions.ResponseCode == 0)
                 {
                     return Ok(listOfQuestions);
