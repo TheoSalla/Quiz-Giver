@@ -72,6 +72,7 @@ namespace QuizGiver.Controllers
             //Console.WriteLine(e.DisplayName());
             // var questions = await _questionRepository.GetQuestionBasedOnCategory(this.category.DisplayName());
             return Ok();
+
         }
 
         [HttpPost]
