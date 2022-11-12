@@ -27,6 +27,23 @@ namespace QuizGiver.Repository
             return records;
         }
 
+        public async Task<List<QuestionModel>> GetQuestionBasedOnCategory(string category)
+        {
+            var records = await _context.Questions.Select(x => new QuestionModel()
+            {
+                Id = x.Id,
+                Question = x.Question,
+                Category = x.Category,
+                CorrectAnswer = x.CorrectAnswer,
+                Difficulty = x.Difficulty,
+                IncorrectAnswer = x.IncorrectAnswer,
+
+            }).Where(y => y.Category == category).ToListAsync();
+
+            return records;
+
+        }
+
         public async Task<QuestionModel> AddQuestion(QuestionModel question)
         {
             QuestionInfo q = new()

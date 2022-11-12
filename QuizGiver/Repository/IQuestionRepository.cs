@@ -6,5 +6,6 @@ namespace QuizGiver.Repository
     {
         Task<List<QuestionModel>> GetAllQuestionAsync();
         Task<QuestionModel> AddQuestion(QuestionModel question);
+        Task<List<QuestionModel>> GetQuestionBasedOnCategory(string category);
     }
 }
