@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using QuizGiver.Models;
 using RestClientLib;
 
 namespace QuizGiver.Controllers
@@ -21,17 +22,22 @@ namespace QuizGiver.Controllers
             this.token = token;
         }
 
-        public async Task<IActionResult> GetQuestion()
+        [HttpGet]
+        public async Task<IActionResult> GetQuestion([FromQuery] Question q)
         {
-            var listOfQuestions = await this.questions.GetQuestions(Category.computer, Difficulty.medium, 159, token.SessionToken);
-            System.Console.WriteLine(listOfQuestions.ResponseCode);
-            if(listOfQuestions.ResponseCode == 0)
+            RestClientLib.Questions listOfQuestions = new();
+            if(Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty ))
             {
-              return Ok(listOfQuestions);
-            }
-            else if(listOfQuestions.ResponseCode == 4)
-            {
-               return Ok("No more questions");
+
+                listOfQuestions = await this.questions.GetQuestions(category, difficulty, 10, token.SessionToken);
+                if (listOfQuestions.ResponseCode == 0)
+                {
+                    return Ok(listOfQuestions);
+                }
+                else if (listOfQuestions.ResponseCode == 4)
+                {
+                    return Ok("No more questions");
+                }
             }
             return BadRequest();
 
