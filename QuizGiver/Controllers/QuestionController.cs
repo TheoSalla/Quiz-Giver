@@ -64,7 +64,7 @@ namespace QuizGiver.Controllers
             var questions = await _questionRepository.GetAllQuestionAsync();
             return Ok(questions);
         }
-
+        
         [HttpGet]
         [Route("db/category")]
         public async Task<IActionResult> GetQuestionFromDbBasedOnCategory()
@@ -81,5 +81,6 @@ namespace QuizGiver.Controllers
             await _questionRepository.AddQuestion(q);
             return Ok();
         }
+
     }
 }
