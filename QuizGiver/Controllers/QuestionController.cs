@@ -24,11 +24,11 @@ namespace QuizGiver.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetQuestion([FromQuery] Question q)
-        {
-            RestClientLib.Questions listOfQuestions = new();
+        {       
             if(Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty ))
             {
                 int count = q.Count ?? 10;
+                RestClientLib.Questions listOfQuestions = new();
                 listOfQuestions = await this.questions.GetQuestions(category, difficulty, count, token.SessionToken);
                 if (listOfQuestions.ResponseCode == 0)
                 {
@@ -40,8 +40,6 @@ namespace QuizGiver.Controllers
                 }
             }
             return BadRequest();
-
-            //var questionsFromApi = _quiz.GetQuestions(Enum.Parse<Category>(category.ToLower()), Difficulty.easy, 2, token.SessionToken);
         }
     }
 }
