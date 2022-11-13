@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using QuizGiver;
 using QuizGiver.Repository;
 using RestClientLib;
@@ -16,6 +17,8 @@ builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
 builder.Services.AddSingleton<IJsonToModel, JsonToModel>();
 builder.Services.AddSingleton<Token>();
 
+
+
 //builder.Services.AddTransient<Token>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -31,10 +34,39 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 
+app.UseHttpsRedirection();
 app.UseAuthorization();
 
+
+
+
+
 app.MapControllers();
+
+//app.Run(async context =>
+//{
+//    context.Response.Cookies.Append("name", "theo");
+//});
+
+//app.Use(async (context, next) =>
+//{
+//    context.Response.Cookies.Append("name", "theo");
+//});
+
+//app.Use(async (context, next) =>
+//{
+//    context.Response.Cookies.Append("name", "theo");
+//    context.Response.Cookies.Append("location", "sthlm");
+//    if (context.Request.Cookies.TryGetValue("name", out string value))
+//    {
+//        if(value == "theo")
+//        {
+//            context.Response.Cookies.Append("name", "fred");
+//        }
+//    }
+//    await next(context);
+//});
+
 
 app.Run();

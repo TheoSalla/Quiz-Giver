@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Extensions;
 using QuizGiver.Models;
 using QuizGiver.Repository;
@@ -19,7 +20,9 @@ namespace QuizGiver.Controllers
         private readonly Token _token;
         private readonly IQuestionRepository _questionRepository;
         private bool finish;
-        private Category category;
+        private string category;
+  
+
 
         public QuestionController(IJsonToModel questions, Token token, IQuestionRepository questionRepository)
         {
@@ -31,9 +34,11 @@ namespace QuizGiver.Controllers
         [HttpGet]
         public async Task<IActionResult> GetQuestion([FromQuery] Question q)
         {
-            if(finish)
+            Response.Headers.SetCookie = $"category={q.Category}";
+            Console.WriteLine($"First category {this.category}");
+            if (finish)
             {
-                return RedirectToAction(actionName: "GetQuestionFromDb");
+                return RedirectToAction(actionName: "GetQuestionFromDbBasedOnCategory");
             }
             
             if (Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty ))
@@ -42,15 +47,16 @@ namespace QuizGiver.Controllers
                 Questions listOfQuestions = await this._questions.GetQuestions(category, difficulty, count, _token.SessionToken);
                 if (listOfQuestions.ResponseCode == 0)
                 {
-                    this.category = category;
+                    this.category = q.Category;
                     Console.WriteLine($"ENUM: {this.category}");
                     return Ok(listOfQuestions);
                 }
                 else if (listOfQuestions.ResponseCode == 4)
                 {
+                    
                     finish = true;
                     Console.WriteLine("No more question");
-                    return RedirectToAction(actionName: "GetQuestionFromDb");
+                    return RedirectToAction(actionName: "GetQuestionFromDbBasedOnCategory");
                 }
             }
             return BadRequest();
@@ -68,10 +74,10 @@ namespace QuizGiver.Controllers
         [Route("db/category")]
         public async Task<IActionResult> GetQuestionFromDbBasedOnCategory()
         {
-            //Desc e = Desc.computer;
-            //Console.WriteLine(e.DisplayName());
-            // var questions = await _questionRepository.GetQuestionBasedOnCategory(this.category.DisplayName());
-            return Ok();
+            
+            string c = GetValueFromCookie() ?? "music";
+            var questions = await _questionRepository.GetQuestionBasedOnCategory(c);
+            return Ok(questions);
 
         }
 
@@ -82,5 +88,25 @@ namespace QuizGiver.Controllers
             return Ok();
         }
 
+        private string GetValueFromCookie()
+        {
+            var cookie = Request.Headers.Cookie;
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            for (int i = 0; i < cookie.ToString().Split("; ").Length; i++)
+            {
+
+                var s = cookie.ToString().Split("; ")[i].Split("=");
+                string first = s[0];
+                string last = s[1];
+                cookies.Add(first, last);
+            }
+            if(cookies.TryGetValue("category", out string? value))
+            {
+                Console.WriteLine(value);
+                return value;
+            }
+
+            return null;
+        }
     }
 }
