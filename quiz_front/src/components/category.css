@@ -1,0 +1,53 @@
+body {
+    background-color: aliceblue;
+    /* background-image: url('https://images.pexels.com/photos/14086435/pexels-photo-14086435.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); */
+    background-image: url('https://wallpaperaccess.com/full/3252122.jpg');
+    background-image: url('https://wallpaperaccess.com/full/1079101.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%; 
+}
+
+/* .background {
+    border-style: dashed;
+    border-width: 5px;
+    border-color: #75a1ff;
+    height:40px;
+} */
+
+.background {
+
+
+}
+
+h1 {
+    color: #284a2c;
+
+    
+}
+
+.categoryGroup{
+    margin-top: 50px;
+    text-align: center;
+    padding: 40px;
+    background-color: black;
+    opacity: 0.8;
+    background-size: cover;
+    height: 490px;
+    border-radius: 600px;
+    border-color: #0b540b;
+    border-color: #8f550a;
+    border-style:groove;
+    border-width: 50px;
+} 
+/* .categoryGroup:hover {
+    opacity: 0.7;
+  } */
+
+.btnGroup {
+    margin: 50px;
+    opacity: 0.9;
+}
+.btn1 {
+    margin: 4px;
+}
