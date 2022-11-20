@@ -20,7 +20,7 @@ namespace QuizGiver.Controllers
         private readonly Token _token;
         private readonly IQuestionRepository _questionRepository;
         private bool finish;
-        private string category;
+        private string? category;
   
 
 
@@ -49,7 +49,7 @@ namespace QuizGiver.Controllers
                 {
                     this.category = q.Category;
                     Console.WriteLine($"ENUM: {this.category}");
-                    return Ok(listOfQuestions);
+                    return Ok(listOfQuestions.Results);
                 }
                 else if (listOfQuestions.ResponseCode == 4)
                 {
