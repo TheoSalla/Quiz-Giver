@@ -1,29 +1,30 @@
 import React from 'react'
-import { Button, Container } from '@mui/material';
+import './category.css'
+import { Button, Paper, Container, Box } from '@mui/material';
 
-
-const Category = () => {
+const Category = (props) => {
     return (
-        <div className='background'>
-            <Container className='categoryGroup' maxWidth="sm">
+        <div>
+            <Container className='categoryGroup' maxWidth="md">
                 <h1>Choose a category</h1>
-                <div className='btnGroup'>
-                    <div className='btn1'>
-                        <Button color='info' variant='contained' href="#contained-buttons">Movie</Button>
-                    </div>
-                    <div className='btn1'>
-                        <Button color='warning' variant='contained' href="#contained-buttons2">Computer</Button>
-                    </div>
-                    <div className='btn1'>
-                        <Button color='error' variant='contained' href="#contained-buttons3">History</Button>
-                    </div>
-                    <div className='btn1'>
-                        <Button color='success' variant='contained' href="#contained-buttons4">Literature</Button>
-                    </div>
+
+                <div className='category'>
+                    <div onClick={props.getCategory} id='computer'>Computer</div>
+                </div>
+                <div className='category'>
+                    <div onClick={props.getCategory} id="movie">Movie</div>
+                </div>
+                <div className='category'>
+                    <div onClick={props.getCategory} id='book'>Book</div>
+                </div>
+                <div className='category'>
+                    <div onClick={props.getCategory} id='history'>History</div>
+                </div>
+                <div className='category'>
+                    <div onClick={props.getCategory} id='videoGame'>Video Game</div>
                 </div>
             </Container>
         </div>
     )
 }
-
 export default Category
