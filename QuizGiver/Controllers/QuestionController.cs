@@ -75,7 +75,8 @@ namespace QuizGiver.Controllers
         public async Task<IActionResult> GetQuestionFromDbBasedOnCategory()
         {
             
-            string c = GetValueFromCookie() ?? "music";
+            // string c = GetValueFromCookie() ?? "music";
+            string c = "computer";
             var questions = await _questionRepository.GetQuestionBasedOnCategory(c);
             return Ok(questions);
 
