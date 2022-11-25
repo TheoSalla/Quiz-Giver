@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using QuizGiver;
 using QuizGiver.Repository;
 using RestClientLib;
-
+var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationManager configuration = builder.Configuration;
@@ -16,6 +16,13 @@ builder.Services.AddControllers();
 builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
 builder.Services.AddSingleton<IJsonToModel, JsonToModel>();
 builder.Services.AddSingleton<Token>();
+builder.Services.AddCors(options => {
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+    policy => {
+        policy.WithOrigins("http://localhost:3000");
+        policy.WithOrigins("http://localhost:3000");
+    });
+});
 
 
 
@@ -36,6 +43,7 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 
