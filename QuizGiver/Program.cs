@@ -4,20 +4,24 @@ using QuizGiver;
 using QuizGiver.Repository;
 using RestClientLib;
 
+var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
-
 // builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=QuizAPI;Trusted_Connection=True;"));
 builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(configuration.GetConnectionString("QuizDB")));
 builder.Services.AddControllers();
 builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
 builder.Services.AddSingleton<IJsonToModel, JsonToModel>();
 builder.Services.AddSingleton<Token>();
-
-
+builder.Services.AddCors(options => {
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+    policy => {
+        policy.WithOrigins("http://localhost:3000");
+    });
+});
 
 //builder.Services.AddTransient<Token>();
 
@@ -34,13 +38,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
-
-
-
-
 
 app.MapControllers();
 
@@ -67,6 +67,5 @@ app.MapControllers();
 //    }
 //    await next(context);
 //});
-
 
 app.Run();
