@@ -11,7 +11,7 @@ namespace QuizGiver
         public QuizContext(DbContextOptions<QuizContext> options) : base(options)
         {}
 
-        public DbSet<QuestionInfo>? Questions { get; set; }
+        public DbSet<QuestionInfo> Questions { get; set; } = null!;
 
         // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         // {
