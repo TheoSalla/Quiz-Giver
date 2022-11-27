@@ -43,7 +43,7 @@ namespace QuizGiver.Controllers
             
             if (Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty ))
             {
-                int count = q.Count ?? 10;
+                int count = (q.Count > 0) ? q.Count : 10;
                 Questions listOfQuestions = await this._questions.GetQuestions(category, difficulty, count, _token.SessionToken);
                 if (listOfQuestions.ResponseCode == 0)
                 {
