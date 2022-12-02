@@ -10,6 +10,14 @@ namespace RestClientLib
         public int ResponseCode { get; set; }
 
         public List<Results> Results { get; set; }
+
+        public Questions()
+        {
+            if(Results == null)
+            {
+                Results = new();
+            }   
+        }
     }
 
     public class Results
@@ -25,5 +33,36 @@ namespace RestClientLib
         public string CorrectAnswer { get; set; }
 
         public List<string> IncorrectAnswers { get; set; }
+
+        public Results()
+        {
+            if(Category == null)
+            {
+                Category = "";
+            }
+            if(Type == null)
+            {
+                Type = "";
+            }
+            if(Difficulty == null)
+            {
+                Difficulty = "";
+            }
+            if(CorrectAnswer == null)
+            {
+                CorrectAnswer = "";
+            }
+            if(Question == null)
+            {
+                Question = "";
+            }
+            if(IncorrectAnswers == null)
+            {
+                IncorrectAnswers = new();
+            }
+       
+        }
+
+
     }
 }
