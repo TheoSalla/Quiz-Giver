@@ -7,6 +7,8 @@ namespace RestClientLib
 {
     public interface IJsonToModel
     {
-        Task<Questions> GetQuestions(Category category, Difficulty difficulty, int amount, string sessionToken);
+        // Task<Questions> GetQuestioSystem.Net.Http.IHttpClientFactory _client, ns(Category category, Difficulty difficulty, int amount, string sessionToken);
+        // Task<Questions> GetQuestions(HttpClient httpClient, Category category, Difficulty difficulty, int amount, string sessionToken);
+        Task<Questions> GetQuestions(HttpClient client, Category category, Difficulty difficulty, int count, string sessionToken);
     }
 }

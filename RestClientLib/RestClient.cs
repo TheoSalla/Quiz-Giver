@@ -24,11 +24,18 @@ namespace RestClientLib
             var response = client.GetStreamAsync(client.BaseAddress).Result;
             return response;
         }
+        internal async Task<Stream> GetRequestToQuizApi(HttpClient client)
+        {
+            Console.WriteLine("Category from lib GetData2: " + _settings.category);
+            client.BaseAddress = new Uri($"https://opentdb.com/api.php{_route}");
+            var response = await client.GetStreamAsync(client.BaseAddress);
+            return response;
+        }
 
         private Settings _settings;
-        private string categoryParam = "&category=";
+        // private string categoryParam = "&category=";
         private string difficultyParam = "&difficulty=";
-        private string url = "https://opentdb.com/api.php?";
+        // private string url = "https://opentdb.com/api.php?";
         private string _route = "";
 
 

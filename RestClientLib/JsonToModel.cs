@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+
 
 namespace RestClientLib
 {
     public class JsonToModel : IJsonToModel
     {
-        public async Task<Questions> GetQuestions(Category category = 0, Difficulty difficulty = 0, int amount = 10, string sessionToken = "")
+        public async Task<Questions> GetQuestions(HttpClient httpClient, Category category = 0, Difficulty difficulty = 0, int amount = 10, string sessionToken = "")
         {
             Settings settings = new();
             settings.amount = amount;
@@ -18,7 +20,7 @@ namespace RestClientLib
 
             RestClient client = new(settings);
             
-            var data = client.GetData2();
+            var data = await client.GetRequestToQuizApi(httpClient);
 
             JsonSerializerOptions serializerOptions = new()
             {
@@ -27,18 +29,16 @@ namespace RestClientLib
             Questions? questions = new();
             try
             {
-                questions = JsonSerializer.DeserializeAsync<Questions>(data, serializerOptions).Result;
+                questions = await JsonSerializer.DeserializeAsync<Questions>(data, serializerOptions);
             }
             catch (Exception ex)
             {
 
                 Console.WriteLine("Error message: " + ex.Message);
             }
+            questions!.DecodeText();
 
-            //Decode.DecodeJson(q1);
-            questions.DecodeText();
-
-            return questions;
+            return questions!;
 
         }
     }
