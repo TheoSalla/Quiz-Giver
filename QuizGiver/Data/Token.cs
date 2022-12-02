@@ -8,9 +8,11 @@ namespace QuizGiver
     public class Token
     {
         public string SessionToken;
-        public Token()
+        private readonly HttpClient _client;
+        public Token(HttpClient client)
         {
-            var token = RestClientLib.SessionToken.GenerateSessionToken();
+            this._client = client;
+            var token = RestClientLib.SessionToken.GenerateSessionToken(_client);
             Console.WriteLine($"Generating token: {token}");
             this.SessionToken = token;
         }

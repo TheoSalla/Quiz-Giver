@@ -22,7 +22,7 @@ builder.Services.AddCors(options => {
         policy.WithOrigins("http://localhost:3000");
     });
 });
-
+builder.Services.AddHttpClient();
 //builder.Services.AddTransient<Token>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
