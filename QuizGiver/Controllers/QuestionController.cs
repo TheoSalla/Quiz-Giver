@@ -15,36 +15,37 @@ namespace QuizGiver.Controllers
     [Route("api/[controller]")]
     public class QuestionController : ControllerBase
     {
-
         private readonly IJsonToModel _questions;
         private readonly Token _token;
         private readonly IQuestionRepository _questionRepository;
         private bool finish;
         private string? category;
+        private HttpClient _client;
   
-
-
-        public QuestionController(IJsonToModel questions, Token token, IQuestionRepository questionRepository)
+        public QuestionController(IJsonToModel questions, Token token, IQuestionRepository questionRepository, HttpClient client)
         {
             this._questions = questions;
             this._token = token;
             this._questionRepository = questionRepository;
+            this._client = client;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetQuestion([FromQuery] Question q)
         {
+
             Response.Headers.SetCookie = $"category={q.Category}";
             Console.WriteLine($"First category {this.category}");
             if (finish)
             {
                 return RedirectToAction(actionName: "GetQuestionFromDbBasedOnCategory");
             }
+
             
             if (Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty ))
             {
                 int count = (q.Count > 0) ? q.Count : 10;
-                Questions listOfQuestions = await this._questions.GetQuestions(category, difficulty, count, _token.SessionToken);
+                Questions listOfQuestions = await this._questions.GetQuestions(this._client, category, difficulty, count, _token.SessionToken);
                 if (listOfQuestions.ResponseCode == 0)
                 {
                     this.category = q.Category;
