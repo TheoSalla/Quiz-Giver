@@ -22,7 +22,6 @@ namespace QuizGiver.Controllers
         private bool finish;
         private string? category;
         private readonly HttpClient _client;
-
         public QuestionController(IJsonToModel questions, Token token, IQuestionRepository questionRepository, HttpClient client)
         {
             this._client = client;
@@ -34,14 +33,12 @@ namespace QuizGiver.Controllers
         [HttpGet]
         public async Task<IActionResult> GetQuestion([FromQuery] Question q)
         {
-            Response.Headers.SetCookie = $"category={q.Category}";
-            Console.WriteLine($"First category {this.category}");
             if (finish)
             {
                 return RedirectToAction(actionName: "GetQuestionFromDbBasedOnCategory");
             }
-            
-            if (Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty ))
+
+            if (Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty))
             {
                 int count = (q.Count > 0) ? q.Count : 10;
                 Questions listOfQuestions = await this._questions.GetQuestions(_client, category, difficulty, count, _token.SessionToken);
@@ -53,7 +50,7 @@ namespace QuizGiver.Controllers
                 }
                 else if (listOfQuestions.ResponseCode == 4)
                 {
-                    
+
                     finish = true;
                     Console.WriteLine("No more question");
                     return RedirectToAction(actionName: "GetQuestionFromDbBasedOnCategory");
@@ -69,12 +66,12 @@ namespace QuizGiver.Controllers
             var questions = await _questionRepository.GetAllQuestionAsync();
             return Ok(questions);
         }
-        
+
         [HttpGet]
         [Route("db/category")]
         public async Task<IActionResult> GetQuestionFromDbBasedOnCategory()
         {
-            
+
             // string c = GetValueFromCookie() ?? "music";
             string c = "computer";
             var questions = await _questionRepository.GetQuestionBasedOnCategory(c);
@@ -101,7 +98,7 @@ namespace QuizGiver.Controllers
                 string last = s[1];
                 cookies.Add(first, last);
             }
-            if(cookies.TryGetValue("category", out string? value))
+            if (cookies.TryGetValue("category", out string? value))
             {
                 Console.WriteLine(value);
                 return value;
