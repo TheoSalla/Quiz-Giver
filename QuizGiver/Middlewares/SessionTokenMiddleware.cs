@@ -1,28 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace QuizGiver.Middlewares
 {
     public class CustomSessionTokenMiddleware
     {
 
         private readonly RequestDelegate _next;
-        private readonly Token _token;
 
-        public CustomSessionTokenMiddleware(RequestDelegate next, Token token)
+        public CustomSessionTokenMiddleware(RequestDelegate next)
         {
             _next = next;
-            _token = token;
         }
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, Token token)
         {
-            Console.WriteLine("COOKE TIME!!");
             var sessionCookie = context.Request.Cookies["session_token"];
             if (sessionCookie == null)
             {
-                Console.WriteLine("Settiing cookie if value is null!!");
+                await token.GenerateTokenAsync();
                 var cookieOptions = new CookieOptions()
                 {
                     Path = "/",
@@ -30,8 +22,7 @@ namespace QuizGiver.Middlewares
                     HttpOnly = true,
 
                 };
-
-                context.Response.Cookies.Append("session_token", _token.SessionToken);
+                context.Response.Cookies.Append("session_token", token.SessionToken);
             }
             // // before logic
             // after logic

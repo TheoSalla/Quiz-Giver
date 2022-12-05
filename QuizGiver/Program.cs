@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
 using QuizGiver;
 using QuizGiver.Middlewares;
 using QuizGiver.Repository;
@@ -50,8 +47,8 @@ if (app.Environment.IsProduction())
     app.UseHttpsRedirection();
 
 }
-
 app.UseQuizSessionToken();
+
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
