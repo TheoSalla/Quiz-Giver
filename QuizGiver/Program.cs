@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using QuizGiver;
+using QuizGiver.Middlewares;
 using QuizGiver.Repository;
 using RestClientLib;
 
-var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationManager configuration = builder.Configuration;
@@ -15,15 +15,19 @@ builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(confi
 builder.Services.AddControllers();
 builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
 builder.Services.AddSingleton<IJsonToModel, JsonToModel>();
-builder.Services.AddSingleton<Token>();
-builder.Services.AddCors(options => {
+// builder.Services.AddSingleton<Token>();
+builder.Services.AddTransient<Token>();
+builder.Services.AddCors(options =>
+{
     options.AddPolicy(name: MyAllowSpecificOrigins,
-    policy => {
-        policy.WithOrigins("http://localhost:3000");
+    policy =>
+    {
+        policy.WithOrigins("http://localhost:3000").AllowCredentials().AllowAnyHeader().AllowAnyMethod();
+        policy.WithOrigins("http://127.0.0.1:3000").AllowCredentials().AllowAnyHeader();
     });
 });
 builder.Services.AddHttpClient();
-//builder.Services.AddTransient<Token>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -38,34 +42,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+if (app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+
+}
+app.UseQuizSessionToken();
+
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapControllers();
-
-//app.Run(async context =>
-//{
-//    context.Response.Cookies.Append("name", "theo");
-//});
-
-//app.Use(async (context, next) =>
-//{
-//    context.Response.Cookies.Append("name", "theo");
-//});
-
-//app.Use(async (context, next) =>
-//{
-//    context.Response.Cookies.Append("name", "theo");
-//    context.Response.Cookies.Append("location", "sthlm");
-//    if (context.Request.Cookies.TryGetValue("name", out string value))
-//    {
-//        if(value == "theo")
-//        {
-//            context.Response.Cookies.Append("name", "fred");
-//        }
-//    }
-//    await next(context);
-//});
 
 app.Run();

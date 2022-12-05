@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace QuizGiver
 {
     public class Token
@@ -12,9 +7,14 @@ namespace QuizGiver
         public Token(HttpClient client)
         {
             this._client = client;
-            var token = RestClientLib.SessionToken.GenerateSessionToken(_client);
-            Console.WriteLine($"Generating token: {token}");
-            this.SessionToken = token;
+            if(SessionToken == null)
+            {
+              SessionToken = "";
+            }
         }
+        public async Task GenerateTokenAsync()
+        {
+            SessionToken = await RestClientLib.SessionToken.GenerateSessionTokenAsync(_client);
+        } 
     }
 }

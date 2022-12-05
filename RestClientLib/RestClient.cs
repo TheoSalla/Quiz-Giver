@@ -11,7 +11,6 @@ namespace RestClientLib
 
         internal Stream GetData(Category category = 0, Difficulty difficulty = 0, int amount = 10, string sessionToken = "")
         {
-            System.Console.WriteLine("Category from lib: " + category);
             var route = $"?amount={amount}&category={(int)category}&difficulty={difficulty}&token={sessionToken}";
             client.BaseAddress = new Uri($"https://opentdb.com/api.php{route}");
             var response = client.GetStreamAsync(client.BaseAddress).Result;
@@ -19,14 +18,12 @@ namespace RestClientLib
         }
         internal Stream GetData2()
         {
-            Console.WriteLine("Category from lib GetData2: " + _settings.category);
             client.BaseAddress = new Uri($"https://opentdb.com/api.php{_route}");
             var response = client.GetStreamAsync(client.BaseAddress).Result;
             return response;
         }
         internal async Task<Stream> GetRequestToQuizApi(HttpClient client)
         {
-            Console.WriteLine("Category from lib GetData2: " + _settings.category);
             client.BaseAddress = new Uri($"https://opentdb.com/api.php{_route}");
             var response = await client.GetStreamAsync(client.BaseAddress);
             return response;

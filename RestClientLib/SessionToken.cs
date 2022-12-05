@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace RestClientLib
 {
     public class SessionToken
@@ -18,13 +13,11 @@ namespace RestClientLib
             return JsonSerializerExtensions.DeserializeAnonymousType(response, new { token = "" })!.token;
 
         }
-        public static string GenerateSessionToken(HttpClient client)
+        public static async Task<string> GenerateSessionTokenAsync(HttpClient client)
         {
             string url = "https://opentdb.com/api_token.php?command=request";
             client.BaseAddress = new Uri(url);
-            var response = client.GetStringAsync(client.BaseAddress).Result;
-
-
+            var response = await client.GetStringAsync(client.BaseAddress);
             return JsonSerializerExtensions.DeserializeAnonymousType(response, new { token = "" })!.token;
 
         }
