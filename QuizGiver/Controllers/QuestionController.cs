@@ -33,6 +33,8 @@ namespace QuizGiver.Controllers
         [HttpGet]
         public async Task<IActionResult> GetQuestion([FromQuery] Question q)
         {
+            
+
             if (finish)
             {
                 return RedirectToAction(actionName: "GetQuestionFromDbBasedOnCategory");
@@ -41,7 +43,7 @@ namespace QuizGiver.Controllers
             if (Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty))
             {
                 int count = (q.Count > 0) ? q.Count : 10;
-                Questions listOfQuestions = await this._questions.GetQuestions(_client, category, difficulty, count, _token.SessionToken);
+                Questions listOfQuestions = await this._questions.GetQuestions(_client, category, difficulty, count, HttpContext.Request.Cookies["session_token"]);
                 if (listOfQuestions.ResponseCode == 0)
                 {
                     this.category = q.Category;

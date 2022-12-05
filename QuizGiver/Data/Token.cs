@@ -15,6 +15,13 @@ namespace QuizGiver
             var token = RestClientLib.SessionToken.GenerateSessionToken(_client);
             Console.WriteLine($"Generating token: {token}");
             this.SessionToken = token;
+            Hello();
         }
+
+        private void Hello()
+        {
+            Console.WriteLine("Hello from token class!");
+        }
+        
     }
 }

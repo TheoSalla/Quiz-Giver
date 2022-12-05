@@ -25,9 +25,10 @@ namespace QuizGiver.Middlewares
                 Console.WriteLine("Settiing cookie if value is null!!");
                 var cookieOptions = new CookieOptions()
                 {
-                    Expires = DateTime.Now.AddMinutes(30),
-                Secure = true    
-                    
+                    Path = "/",
+                    IsEssential = true,
+                    HttpOnly = true,
+
                 };
 
                 context.Response.Cookies.Append("session_token", _token.SessionToken);
