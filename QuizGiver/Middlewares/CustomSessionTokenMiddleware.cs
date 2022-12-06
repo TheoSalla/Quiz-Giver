@@ -19,7 +19,6 @@ namespace QuizGiver.Middlewares
                     Path = "/",
                     IsEssential = true,
                     HttpOnly = true,
-
                 };
                 context.Response.Cookies.Append("session_token", token.SessionToken);
             }

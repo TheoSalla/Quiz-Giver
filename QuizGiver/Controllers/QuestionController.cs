@@ -30,9 +30,11 @@ namespace QuizGiver.Controllers
                 if (listOfQuestions.ResponseCode == 0)
                 {
                     this.category = q.Category;
-                    return Ok(listOfQuestions.Results);
+                    return Ok
+                    (listOfQuestions.Results);
                 }
-                else if (listOfQuestions.ResponseCode == 4)
+                else if 
+                (listOfQuestions.ResponseCode == 4)
                 {
                     return RedirectToAction(actionName: "GetQuestionFromDbBasedOnCategory");
                 }
@@ -43,7 +45,8 @@ namespace QuizGiver.Controllers
         [Route("db")]
         public async Task<IActionResult> GetQuestionFromDb()
         {
-            var questions = await _questionRepository.GetAllQuestionAsync();
+            var questions = await
+             _questionRepository.GetAllQuestionAsync();
             return Ok(questions);
         }
         [HttpGet]
