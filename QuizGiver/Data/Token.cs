@@ -4,10 +4,11 @@ namespace QuizGiver
     {
         public string SessionToken;
         private readonly HttpClient _client;
+
         public Token(HttpClient client)
         {
             this._client = client;
-            if(SessionToken == null)
+            if (SessionToken == null)
             {
               SessionToken = "";
             }
