@@ -17,7 +17,6 @@ namespace QuizGiver.Repository
                 CorrectAnswer = x.CorrectAnswer,
                 Difficulty = x.Difficulty,
                 IncorrectAnswer = x.IncorrectAnswer,
-
             }).ToListAsync();
             return records;
         }
@@ -31,7 +30,6 @@ namespace QuizGiver.Repository
                 CorrectAnswer = x.CorrectAnswer,
                 Difficulty = x.Difficulty,
                 IncorrectAnswer = x.IncorrectAnswer,
-
             }).Where(y => y.Category == category).ToListAsync();
             return records;
         }
