@@ -12,11 +12,11 @@ namespace QuizGiver.Controllers
         private readonly IJsonToModel _questions;
         private readonly IQuestionRepository _questionRepository;
         private string? category;
-        private readonly HttpClient _client;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public QuestionController(IJsonToModel questions, IQuestionRepository questionRepository, HttpClient client)
+        public QuestionController(IJsonToModel questions, IQuestionRepository questionRepository, IHttpClientFactory httpClientFactory)
         {
-            this._client = client;
+            this._httpClientFactory = httpClientFactory;
             this._questions = questions;
             this._questionRepository = questionRepository;
         }
@@ -28,7 +28,7 @@ namespace QuizGiver.Controllers
             if (Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty))
             {
                 int count = (q.Count > 0) ? q.Count : 10;
-                Questions listOfQuestions = await this._questions.GetQuestions(_client, category, difficulty, count, HttpContext.Request.Cookies["session_token"]!);
+                Questions listOfQuestions = await this._questions.GetQuestions(_httpClientFactory.CreateClient(), category, difficulty, count, HttpContext.Request.Cookies["session_token"]!);
                 if (listOfQuestions.ResponseCode == 0)
                 {
                     this.category = q.Category;
