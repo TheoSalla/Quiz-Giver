@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://127.0.0.1:3000").AllowCredentials().AllowAnyHeader();
     });
 });
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<Token>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
