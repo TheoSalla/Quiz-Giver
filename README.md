@@ -1,4 +1,4 @@
 # Quiz-Giver
 
 Library that gets questions from https://opentdb.com/api_config.php. \
-ASP.NET Core API that use the library in controller. 
+ASP.NET Core API that uses the library to fetch questions from external API and database. 
