@@ -3,19 +3,17 @@ namespace QuizGiver
     public class Token
     {
         public string SessionToken;
-        private readonly HttpClient _client;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public Token(HttpClient client)
+        public Token(IHttpClientFactory httpClientFactory)
         {
-            this._client = client;
             if (SessionToken == null)
             {
               SessionToken = "";
             }
+
+            this._httpClientFactory = httpClientFactory;
         }
-        public async Task GenerateTokenAsync()
-        {
-            SessionToken = await RestClientLib.SessionToken.GenerateSessionTokenAsync(_client);
-        } 
+        public async Task GenerateTokenAsync() => SessionToken = await RestClientLib.SessionToken.GenerateSessionTokenAsync(_httpClientFactory.CreateClient());
     }
 }
