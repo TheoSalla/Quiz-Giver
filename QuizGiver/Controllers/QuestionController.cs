@@ -20,11 +20,9 @@ namespace QuizGiver.Controllers
             this._questions = questions;
             this._questionRepository = questionRepository;
         }
-
         [HttpGet]
         public async Task<IActionResult> GetQuestion([FromQuery] Question q)
         {
-
             if (Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty))
             {
                 int count = (q.Count > 0) ? q.Count : 10;
@@ -41,7 +39,6 @@ namespace QuizGiver.Controllers
             }
             return BadRequest();
         }
-
         [HttpGet]
         [Route("db")]
         public async Task<IActionResult> GetQuestionFromDb()
@@ -49,17 +46,14 @@ namespace QuizGiver.Controllers
             var questions = await _questionRepository.GetAllQuestionAsync();
             return Ok(questions);
         }
-
         [HttpGet]
         [Route("db/category")]
         public async Task<IActionResult> GetQuestionFromDbBasedOnCategory()
         {
-
             // string c = GetValueFromCookie() ?? "music";
             string c = "computer";
             var questions = await _questionRepository.GetQuestionBasedOnCategory(c);
             return Ok(questions);
-
         }
 
         [HttpPost]

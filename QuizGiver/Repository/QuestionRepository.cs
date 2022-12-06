@@ -6,11 +6,7 @@ namespace QuizGiver.Repository
     public class QuestionRepository : IQuestionRepository
     {
         private readonly QuizContext _context;
-
-        public QuestionRepository(QuizContext context)
-        {
-            _context = context;
-        }
+        public QuestionRepository(QuizContext context) => _context = context;
         public async Task<List<QuestionModel>> GetAllQuestionAsync()
         {
             List<QuestionModel> records = await _context.Questions.Select(x => new QuestionModel()
@@ -23,10 +19,8 @@ namespace QuizGiver.Repository
                 IncorrectAnswer = x.IncorrectAnswer,
 
             }).ToListAsync();
-
             return records;
         }
-
         public async Task<List<QuestionModel>> GetQuestionBasedOnCategory(string category)
         {
             var records = await _context.Questions.Select(x => new QuestionModel()
@@ -39,11 +33,8 @@ namespace QuizGiver.Repository
                 IncorrectAnswer = x.IncorrectAnswer,
 
             }).Where(y => y.Category == category).ToListAsync();
-
             return records;
-
         }
-
         public async Task<QuestionModel> AddQuestion(QuestionModel question)
         {
             QuestionInfo q = new()
@@ -55,13 +46,9 @@ namespace QuizGiver.Repository
                 Difficulty = question.Difficulty,
                 IncorrectAnswer = question.IncorrectAnswer,
             };
-
-            //_context.Questions.Add(q);
-
             await _context.AddAsync(q);
             await _context.SaveChangesAsync();
             return question;
-
         }
     }
 }

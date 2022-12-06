@@ -18,6 +18,5 @@ namespace QuizGiver
         //     optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=QuizAPI;Trusted_Connection=True;");
         //     base.OnConfiguring(optionsBuilder);
         // }
-        
     }
 }
