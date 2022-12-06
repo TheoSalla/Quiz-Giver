@@ -1,8 +1,7 @@
 namespace QuizGiver.Middlewares
 {
-    public class CustomSessionTokenMiddleware
+    sealed internal class CustomSessionTokenMiddleware
     {
-
         private readonly RequestDelegate _next;
 
         public CustomSessionTokenMiddleware(RequestDelegate next)
@@ -25,15 +24,8 @@ namespace QuizGiver.Middlewares
                 context.Response.Cookies.Append("session_token", token.SessionToken);
             }
             // // before logic
-            // after logic
             await _next(context);
-        }
-    }
-    public static class CustomSessionTokenMiddlewareExtensions
-    {
-        public static IApplicationBuilder UseQuizSessionToken(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<CustomSessionTokenMiddleware>();
+            // after logic
         }
     }
 }

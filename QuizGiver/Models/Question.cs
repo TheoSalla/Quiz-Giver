@@ -7,7 +7,6 @@ namespace QuizGiver.Models
         public string Category { get; set; }
         public string Difficulty { get; set; }
         public int Count { get; set; }
-
         public Question()
         {   
             if(this.Category == null)
@@ -19,8 +18,5 @@ namespace QuizGiver.Models
                 this.Difficulty = "";
             }
         }
-
-        
-
     }
 }

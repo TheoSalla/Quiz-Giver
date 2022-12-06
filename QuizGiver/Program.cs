@@ -8,7 +8,6 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationManager configuration = builder.Configuration;
-
 // Add services to the container.
 // builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=QuizAPI;Trusted_Connection=True;"));
 builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(configuration.GetConnectionString("QuizDB")));
@@ -27,8 +26,6 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddHttpClient();
-
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -45,7 +42,6 @@ if (app.Environment.IsDevelopment())
 if (app.Environment.IsProduction())
 {
     app.UseHttpsRedirection();
-
 }
 app.UseQuizSessionToken();
 

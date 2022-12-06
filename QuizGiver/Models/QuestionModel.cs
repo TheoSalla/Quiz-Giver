@@ -8,7 +8,6 @@
         public string IncorrectAnswer { get; set; }
         public string Difficulty { get; set; }
         public string Category { get; set; }
-
         public QuestionModel()
         {
             if (this.Question == null)
@@ -31,7 +30,6 @@
             {
                 this.Category = "";
             }
-
         }
     }
 }
