@@ -28,7 +28,6 @@ namespace QuizGiver.Controllers
                 Questions listOfQuestions = await this._questions.GetQuestions(_httpClientFactory.CreateClient(), category, difficulty, count, HttpContext.Request.Cookies["session_token"]!);
                 if (listOfQuestions.ResponseCode == 0)
                 {
-                    this.category = q.Category;
                     return Ok
                     (listOfQuestions.Results);
                 }
