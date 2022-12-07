@@ -7,7 +7,7 @@ namespace RestClientLib
 {
     internal class RestClient
     {
-        HttpClient client = new();
+        readonly HttpClient client = new();
 
         internal Stream GetData(Category category = 0, Difficulty difficulty = 0, int amount = 10, string sessionToken = "")
         {
@@ -29,28 +29,22 @@ namespace RestClientLib
             return response;
         }
 
-        private Settings _settings;
         // private string categoryParam = "&category=";
-        private string difficultyParam = "&difficulty=";
+        private readonly string difficultyParam = "&difficulty=";
         // private string url = "https://opentdb.com/api.php?";
-        private string _route = "";
-
+        private readonly string _route = "";
 
         public RestClient(Settings settings)
         {
-
-            if (settings.difficulty == Difficulty.everyDifficulty)
+            if (settings.Difficulty == Difficulty.everyDifficulty)
             {
-                difficultyParam = $"&difficulty=0";
+                difficultyParam = "&difficulty=0";
             }
             else
             {
-                difficultyParam = $"&difficulty={settings.difficulty}";
+                difficultyParam = $"&difficulty={settings.Difficulty}";
             }
-            _route = $"?amount={settings.amount}&category={(int)settings.category}{difficultyParam}&token={settings.sessionToken}";
-
-            _settings = settings;
+            _route = $"?amount={settings.Amount}&category={(int)settings.Category}{difficultyParam}&token={settings.SessionToken}";
         }
-
     }
 }

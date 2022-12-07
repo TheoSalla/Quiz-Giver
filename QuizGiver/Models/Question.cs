@@ -8,15 +8,9 @@ namespace QuizGiver.Models
         public string Difficulty { get; set; }
         public int Count { get; set; }
         public Question()
-        {   
-            if(this.Category == null)
-            {
-                this.Category = "";
-            }
-            if(this.Difficulty == null)
-            {
-                this.Difficulty = "";
-            }
+        {
+            this.Category ??= "";
+            this.Difficulty ??= "";
         }
     }
 }

@@ -13,13 +13,9 @@ namespace RestClientLib
 
         public Questions()
         {
-            if(Results == null)
-            {
-                Results = new();
-            }   
+            Results ??= new();
         }
     }
-
     public class Results
     {
         public string Category { get; set; }
@@ -36,33 +32,12 @@ namespace RestClientLib
 
         public Results()
         {
-            if(Category == null)
-            {
-                Category = "";
-            }
-            if(Type == null)
-            {
-                Type = "";
-            }
-            if(Difficulty == null)
-            {
-                Difficulty = "";
-            }
-            if(CorrectAnswer == null)
-            {
-                CorrectAnswer = "";
-            }
-            if(Question == null)
-            {
-                Question = "";
-            }
-            if(IncorrectAnswers == null)
-            {
-                IncorrectAnswers = new();
-            }
-       
+            Category ??= "";
+            Type ??= "";
+            Difficulty ??= "";
+            CorrectAnswer ??= "";
+            Question ??= "";
+            IncorrectAnswers ??= new();
         }
-
-
     }
 }

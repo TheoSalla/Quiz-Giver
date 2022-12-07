@@ -11,10 +11,7 @@ namespace RestClientLib
     {
         public override string ConvertName(string name)
         {
-            name = Regex.Replace(name, @"(?<=[a-z])([A-Z])", @"_$1").ToLower();
-            return name;
-
+            return Regex.Replace(name, "(?<=[a-z])([A-Z])","_$1").ToLower();
         }
-
     }
 }

@@ -20,10 +20,7 @@ namespace QuizGiver.Migrations
                     Difficulty = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Questions", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Questions", x => x.Id));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

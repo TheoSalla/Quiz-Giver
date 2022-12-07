@@ -7,18 +7,14 @@ namespace RestClientLib
 {
     public class Settings
     {
-        public Category category { get; set; }
-        public Difficulty difficulty { get; set; }
-        public int amount { get; set; }
-        public string sessionToken { get; set; }
+        public Category Category { get; set; }
+        public Difficulty Difficulty { get; set; }
+        public int Amount { get; set; }
+        public string SessionToken { get; set; }
 
         public Settings()
         {
-            if(sessionToken == null)
-            {   
-                sessionToken = "";
-            }
-            
+            SessionToken ??= "";
         }
     }
 }

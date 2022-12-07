@@ -14,13 +14,6 @@ namespace QuizGiver.Middlewares
             if (sessionCookie == null)
             {
                 await token.GenerateTokenAsync();
-                var cookieOptions = new CookieOptions()
-                {
-                    Path = "/",
-                    IsEssential = true,
-                    HttpOnly = true,
-
-                };
                 context.Response.Cookies.Append("session_token", token.SessionToken);
             }
             // // before logic
