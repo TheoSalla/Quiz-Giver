@@ -7,10 +7,7 @@ namespace QuizGiver
 
         public Token(IHttpClientFactory httpClientFactory)
         {
-            if (SessionToken == null)
-            {
-              SessionToken = "";
-            }
+            SessionToken ??= "";
 
             this._httpClientFactory = httpClientFactory;
         }

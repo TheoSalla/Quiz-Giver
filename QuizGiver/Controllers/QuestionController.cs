@@ -11,7 +11,6 @@ namespace QuizGiver.Controllers
     {
         private readonly IJsonToModel _questions;
         private readonly IQuestionRepository _questionRepository;
-        private string? category;
         private readonly IHttpClientFactory _httpClientFactory;
 
         public QuestionController(IJsonToModel questions, IQuestionRepository questionRepository, IHttpClientFactory httpClientFactory)
@@ -29,7 +28,6 @@ namespace QuizGiver.Controllers
                 Questions listOfQuestions = await this._questions.GetQuestions(_httpClientFactory.CreateClient(), category, difficulty, count, HttpContext.Request.Cookies["session_token"]!);
                 if (listOfQuestions.ResponseCode == 0)
                 {
-                    this.category = q.Category;
                     return Ok
                     (listOfQuestions.Results);
                 }
@@ -54,7 +52,7 @@ namespace QuizGiver.Controllers
         public async Task<IActionResult> GetQuestionFromDbBasedOnCategory()
         {
             // string c = GetValueFromCookie() ?? "music";
-            string c = "computer";
+            const string c = "computer";
             var questions = await _questionRepository.GetQuestionBasedOnCategory(c);
             return Ok(questions);
         }

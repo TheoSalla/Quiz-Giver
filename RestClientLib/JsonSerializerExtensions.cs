@@ -8,11 +8,10 @@ namespace RestClientLib
 {
     public static partial class JsonSerializerExtensions
     {
-        public static T? DeserializeAnonymousType<T>(string json, T anonymousTypeObject, JsonSerializerOptions? options = default)
-        => JsonSerializer.Deserialize<T>(json, options);
+        public static T? DeserializeAnonymousType<T>(this string json, T t)
+        => JsonSerializer.Deserialize<T>(json);
 
-        public static ValueTask<TValue?> DeserializeAnonymousTypeAsync<TValue>(Stream stream, TValue anonymousTypeObject, JsonSerializerOptions? options = default, CancellationToken cancellationToken = default)
-            => JsonSerializer.DeserializeAsync<TValue>(stream, options, cancellationToken); 
-
+        public static ValueTask<TValue?> DeserializeAnonymousTypeAsync<TValue>(this Stream stream, JsonSerializerOptions? options = default, CancellationToken cancellationToken = default)
+            => JsonSerializer.DeserializeAsync<TValue>(stream, options, cancellationToken);
     }
 }

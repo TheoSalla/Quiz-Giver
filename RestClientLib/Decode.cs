@@ -13,14 +13,12 @@ namespace RestClientLib
             {
                 question.Results[i].Question = System.Web.HttpUtility.HtmlDecode(question.Results[i].Question);
                 question.Results[i].CorrectAnswer = System.Web.HttpUtility.HtmlDecode(question.Results[i].CorrectAnswer);
-                for (int j = 0; j < question.Results[i].IncorrectAnswers.Count(); j++)
+                for (int j = 0; j < question.Results[i].IncorrectAnswers.Count; j++)
                 {
                     question.Results[i].IncorrectAnswers[j] = System.Web.HttpUtility.HtmlDecode(question.Results[i].IncorrectAnswers[j]);
                 }
-
             }
             return question;
         }
-
     }
 }

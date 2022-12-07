@@ -16,26 +16,11 @@ namespace QuizGiver
 
         public QuestionInfo()
         {
-            if (this.Question == null)
-            {
-                this.Question = "";
-            }
-            if (this.CorrectAnswer == null)
-            {
-                this.CorrectAnswer = "";
-            }
-            if (this.IncorrectAnswer == null)
-            {
-                this.IncorrectAnswer = "";
-            }
-            if (this.Difficulty == null)
-            {
-                this.Difficulty = "";
-            }
-            if (this.Category == null)
-            {
-                this.Category = "";
-            }
+            this.Question ??= "";
+            this.CorrectAnswer ??= "";
+            this.IncorrectAnswer ??= "";
+            this.Difficulty ??= "";
+            this.Category ??= "";
         }
     }
 }
