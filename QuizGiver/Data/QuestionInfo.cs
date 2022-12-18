@@ -1,26 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using QuizGiver.Data;
 
 namespace QuizGiver
 {
     public class QuestionInfo
     {
-        public int Id { get; set; }
-        public string Question { get; set; }
-        public string CorrectAnswer { get; set; }
-        public string IncorrectAnswer { get; set; }
-        public string Difficulty { get; set; }
-        public string Category { get; set; }
 
-        public QuestionInfo()
-        {
-            this.Question ??= "";
-            this.CorrectAnswer ??= "";
-            this.IncorrectAnswer ??= "";
-            this.Difficulty ??= "";
-            this.Category ??= "";
-        }
+        [Key]
+        public Guid QuestionId { get; set; }
+        [JsonPropertyName("category")]
+        public string? Category { get; set; }
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
+        [JsonPropertyName("difficulty")]
+        public string? Difficulty { get; set; }
+        [JsonPropertyName("question")]
+        public string? Question { get; set; }
+        [JsonPropertyName("correct_answer")]
+        public string? CorrectAnswer { get; set; }
+
     }
 }
