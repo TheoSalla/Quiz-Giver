@@ -1,4 +1,6 @@
-﻿namespace QuizGiver.Models
+﻿using QuizGiver.Data;
+
+namespace QuizGiver.Models
 {
     public class QuestionModel
     {
@@ -8,6 +10,7 @@
         public string IncorrectAnswer { get; set; }
         public string Difficulty { get; set; }
         public string Category { get; set; }
+        public List<IncorrectAnswer> IncorrectAnswers { get; set; }
         public QuestionModel()
         {
             this.Question ??= "";

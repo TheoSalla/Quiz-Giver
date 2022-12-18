@@ -37,6 +37,8 @@ namespace QuizGiver.Migrations
 
                     b.HasKey("IncorrectAnswerId");
 
+                    b.HasIndex("QuestionId");
+
                     b.ToTable("IncorrectAnswers", (string)null);
 
                     b.HasData(
@@ -122,6 +124,22 @@ namespace QuizGiver.Migrations
                             Question = "What position does Harry Potter play in Quidditch?",
                             Type = "multiple"
                         });
+                });
+
+            modelBuilder.Entity("QuizGiver.Data.IncorrectAnswer", b =>
+                {
+                    b.HasOne("QuizGiver.QuestionInfo", "QuestionInfo")
+                        .WithMany("IncorrectAnswers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QuestionInfo");
+                });
+
+            modelBuilder.Entity("QuizGiver.QuestionInfo", b =>
+                {
+                    b.Navigation("IncorrectAnswers");
                 });
 #pragma warning restore 612, 618
         }

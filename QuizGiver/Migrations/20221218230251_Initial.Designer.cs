@@ -12,7 +12,7 @@ using QuizGiver;
 namespace QuizGiver.Migrations
 {
     [DbContext(typeof(QuestionsDbContext))]
-    [Migration("20221218223949_Initial")]
+    [Migration("20221218230251_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,8 @@ namespace QuizGiver.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IncorrectAnswerId");
+
+                    b.HasIndex("QuestionId");
 
                     b.ToTable("IncorrectAnswers", (string)null);
 
@@ -124,6 +126,22 @@ namespace QuizGiver.Migrations
                             Question = "What position does Harry Potter play in Quidditch?",
                             Type = "multiple"
                         });
+                });
+
+            modelBuilder.Entity("QuizGiver.Data.IncorrectAnswer", b =>
+                {
+                    b.HasOne("QuizGiver.QuestionInfo", "QuestionInfo")
+                        .WithMany("IncorrectAnswers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QuestionInfo");
+                });
+
+            modelBuilder.Entity("QuizGiver.QuestionInfo", b =>
+                {
+                    b.Navigation("IncorrectAnswers");
                 });
 #pragma warning restore 612, 618
         }

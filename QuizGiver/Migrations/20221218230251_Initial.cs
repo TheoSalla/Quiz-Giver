@@ -10,19 +10,6 @@ namespace QuizGiver.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "IncorrectAnswers",
-                columns: table => new
-                {
-                    IncorrectAnswerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Answer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IncorrectAnswers", x => x.IncorrectAnswerId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
                 {
@@ -38,6 +25,35 @@ namespace QuizGiver.Migrations
                     table.PrimaryKey("PK_Questions", x => x.QuestionId);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "IncorrectAnswers",
+                columns: table => new
+                {
+                    IncorrectAnswerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Answer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IncorrectAnswers", x => x.IncorrectAnswerId);
+                    table.ForeignKey(
+                        name: "FK_IncorrectAnswers_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "QuestionId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Questions",
+                columns: new[] { "QuestionId", "Category", "CorrectAnswer", "Difficulty", "Question", "Type" },
+                values: new object[] { new Guid("89ba9b17-c858-4949-870e-537dddb7e2da"), "Entertainment: Books", "Seeker", "medium", "What position does Harry Potter play in Quidditch?", "multiple" });
+
+            migrationBuilder.InsertData(
+                table: "Questions",
+                columns: new[] { "QuestionId", "Category", "CorrectAnswer", "Difficulty", "Question", "Type" },
+                values: new object[] { new Guid("8fe0f29d-b584-4377-8789-9c6949c2db3a"), "History", "Jethro Tull", "medium", "The seed drill was invented by which British inventor?", "multiple" });
+
             migrationBuilder.InsertData(
                 table: "IncorrectAnswers",
                 columns: new[] { "IncorrectAnswerId", "Answer", "QuestionId" },
@@ -51,14 +67,10 @@ namespace QuizGiver.Migrations
                     { new Guid("d51b834b-99c0-4c4f-83ab-0185e65d1739"), "Keeper", new Guid("89ba9b17-c858-4949-870e-537dddb7e2da") }
                 });
 
-            migrationBuilder.InsertData(
-                table: "Questions",
-                columns: new[] { "QuestionId", "Category", "CorrectAnswer", "Difficulty", "Question", "Type" },
-                values: new object[,]
-                {
-                    { new Guid("89ba9b17-c858-4949-870e-537dddb7e2da"), "Entertainment: Books", "Seeker", "medium", "What position does Harry Potter play in Quidditch?", "multiple" },
-                    { new Guid("8fe0f29d-b584-4377-8789-9c6949c2db3a"), "History", "Jethro Tull", "medium", "The seed drill was invented by which British inventor?", "multiple" }
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_IncorrectAnswers_QuestionId",
+                table: "IncorrectAnswers",
+                column: "QuestionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

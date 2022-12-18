@@ -52,7 +52,7 @@ namespace QuizGiver.Controllers
         public async Task<IActionResult> GetQuestionFromDbBasedOnCategory()
         {
             // string c = GetValueFromCookie() ?? "music";
-            const string c = "computer";
+            const string c = "Entertainment: Books";
             var questions = await _questionRepository.GetQuestionBasedOnCategory(c);
             return Ok(questions);
         }

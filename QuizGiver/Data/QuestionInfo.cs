@@ -19,6 +19,7 @@ namespace QuizGiver
         public string? Question { get; set; }
         [JsonPropertyName("correct_answer")]
         public string? CorrectAnswer { get; set; }
+        public List<IncorrectAnswer> IncorrectAnswers { get; set; }
 
     }
 }

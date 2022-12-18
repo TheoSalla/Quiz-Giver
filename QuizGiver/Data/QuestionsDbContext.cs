@@ -16,7 +16,7 @@ namespace QuizGiver
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<QuestionInfo>().ToTable("Questions");
-            modelBuilder.Entity<IncorrectAnswer>().ToTable("IncorrectAnswers");
+            modelBuilder.Entity<IncorrectAnswer>().ToTable("IncorrectAnswers").HasOne(i => i.QuestionInfo).WithMany(c => c.IncorrectAnswers).HasForeignKey(k => k.QuestionId);
 
 
             string q = System.IO.File.ReadAllText("questions.json");
