@@ -9,8 +9,6 @@ namespace QuizGiver.Repository
         public QuestionRepository(QuestionsDbContext context) => _context = context;
         public async Task<List<QuestionModel>> GetAllQuestionAsync()
         {
-
-            
             List<QuestionModel> records = await _context.Questions.Select(x => new QuestionModel()
             {
                 Id = x.QuestionId,

@@ -12,7 +12,6 @@ namespace QuizGiver
         public DbSet<QuestionInfo> Questions { get; set; } = null!;
         public DbSet<IncorrectAnswer> IncorrectAnswers { get; set; } = null!;
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -6,7 +6,6 @@ namespace QuizGiver
 {
     public class QuestionInfo
     {
-
         [Key]
         public Guid QuestionId { get; set; }
         [JsonPropertyName("category")]
@@ -20,6 +19,5 @@ namespace QuizGiver
         [JsonPropertyName("correct_answer")]
         public string? CorrectAnswer { get; set; }
         public List<IncorrectAnswer> IncorrectAnswers { get; set; }
-
     }
 }
