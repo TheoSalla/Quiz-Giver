@@ -5,18 +5,18 @@ namespace QuizGiver.Repository
 {
     public class QuestionRepository : IQuestionRepository
     {
-        private readonly QuizContext _context;
-        public QuestionRepository(QuizContext context) => _context = context;
+        private readonly QuestionsDbContext _context;
+        public QuestionRepository(QuestionsDbContext context) => _context = context;
         public async Task<List<QuestionModel>> GetAllQuestionAsync()
         {
             List<QuestionModel> records = await _context.Questions.Select(x => new QuestionModel()
             {
-                Id = x.Id,
+                Id = x.QuestionId,
                 Question = x.Question,
                 Category = x.Category,
                 CorrectAnswer = x.CorrectAnswer,
                 Difficulty = x.Difficulty,
-                IncorrectAnswer = x.IncorrectAnswer,
+                IncorrectAnswers = x.IncorrectAnswers
             }).ToListAsync();
             return records;
         }
@@ -24,12 +24,12 @@ namespace QuizGiver.Repository
         {
             var records = await _context.Questions.Select(x => new QuestionModel()
             {
-                Id = x.Id,
+                Id = x.QuestionId,
                 Question = x.Question,
                 Category = x.Category,
                 CorrectAnswer = x.CorrectAnswer,
                 Difficulty = x.Difficulty,
-                IncorrectAnswer = x.IncorrectAnswer,
+                IncorrectAnswers = x.IncorrectAnswers
             }).Where(y => y.Category == category).ToListAsync();
             return records;
         }
@@ -37,12 +37,12 @@ namespace QuizGiver.Repository
         {
             QuestionInfo q = new()
             {
-                Id = question.Id,
+                QuestionId = question.Id,
                 Question = question.Question,
                 Category = question.Category,
                 CorrectAnswer = question.CorrectAnswer,
                 Difficulty = question.Difficulty,
-                IncorrectAnswer = question.IncorrectAnswer,
+                IncorrectAnswers = question.IncorrectAnswers
             };
             await _context.AddAsync(q);
             await _context.SaveChangesAsync();
