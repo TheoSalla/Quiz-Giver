@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using QuizGiver.Data;
 
@@ -18,36 +19,19 @@ namespace QuizGiver
             modelBuilder.Entity<QuestionInfo>().ToTable("Questions");
             modelBuilder.Entity<IncorrectAnswer>().ToTable("IncorrectAnswers").HasOne(i => i.QuestionInfo).WithMany(c => c.IncorrectAnswers).HasForeignKey(k => k.QuestionId);
 
-
-            string q = System.IO.File.ReadAllText("questions.json");
-            List<QuestionInfo> listOfQuestions =  System.Text.Json.JsonSerializer.Deserialize<List<QuestionInfo>>(q);
+            string q = File.ReadAllText("questions.json");
+            List<QuestionInfo> listOfQuestions =  JsonSerializer.Deserialize<List<QuestionInfo>>(q);
             foreach(QuestionInfo question in listOfQuestions)
             {
                 modelBuilder.Entity<QuestionInfo>().HasData(question);
             }
 
-            string ia = System.IO.File.ReadAllText("incorrectAnswers.json");
-            List<IncorrectAnswer> listOfIncorrectAnswers = System.Text.Json.JsonSerializer.Deserialize<List<IncorrectAnswer>>(ia);
+            string ia = File.ReadAllText("incorrectAnswers.json");
+            List<IncorrectAnswer> listOfIncorrectAnswers = JsonSerializer.Deserialize<List<IncorrectAnswer>>(ia);
             foreach(IncorrectAnswer answer in listOfIncorrectAnswers)
             {
                 modelBuilder.Entity<IncorrectAnswer>().HasData(answer);
             }
-
-            //Seed to Questions
-            // modelBuilder.Entity<QuestionInfo>().HasData(new QuestionInfo() {
-            //     Id = 1,
-            //     Category = "general",
-            //     Type = "boolean",
-            //     Difficulty = "easy",
-            //     Question = "What is the capital of Sweden",
-            //     CorrectAnswer = "Stockholm",
-            //     IncorrectAnswers = new List<string>()
-            //     {
-            //         "Paris",
-            //         "Oslo",
-            //         "London"
-            //     }
-            // });
         }
 
         // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
