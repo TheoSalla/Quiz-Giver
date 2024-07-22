@@ -9,9 +9,13 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationManager configuration = builder.Configuration;
+
 // Add services to the container.
-// builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=QuizAPI;Trusted_Connection=True;"));
-builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(configuration.GetConnectionString("QuizDB")));
+
+var connectionString = $"{configuration["ConnectionString"]};";
+builder.Services.AddDbContext<QuizContext>(options => options.UseSqlServer(connectionString));
+
+
 builder.Services.AddControllers();
 builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
 builder.Services.AddSingleton<IJsonToModel, JsonToModel>();
