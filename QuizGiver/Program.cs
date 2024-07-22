@@ -3,6 +3,7 @@ using QuizGiver;
 using QuizGiver.Middlewares;
 using QuizGiver.Repository;
 using RestClientLib;
+using Serilog;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,11 @@ builder.Services.AddHttpClient();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Host.UseSerilog((ctx, lc) =>
+     lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration)
+
+     );
+
 
 var app = builder.Build();
 
