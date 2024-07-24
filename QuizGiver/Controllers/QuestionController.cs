@@ -42,7 +42,7 @@ namespace QuizGiver.Controllers
                 var errorResponse = new
                 {
                     Message = "Invalid category",
-                    ValidCategories = Category.book + ", " + Category.movie + ", " + Category.music + ", " + Category.videoGame + ", " + Category.computer + ", " + Category.history + ", " + Category.cartoon
+                    ValidCategories = $"{Category.book}, {Category.movie}, {Category.music}, {Category.videoGame}, {Category.computer}, {Category.history}, {Category.cartoon}"
                 };
 
                 return BadRequest(errorResponse);
