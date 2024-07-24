@@ -22,6 +22,35 @@ namespace QuizGiver.Controllers
         [HttpGet]
         public async Task<IActionResult> GetQuestion([FromQuery] Question q)
         {
+            int c;
+            var isValidCategory = int.TryParse(q.Category, out c);
+            if (!isValidCategory)
+            {
+                return BadRequest(new { Error = "Category must be a number" });
+            }
+
+            if (!Enum.IsDefined(typeof(Category), c))
+            {
+                var validCategories = new Dictionary<int, string>
+                {
+                    { 10, "book" },
+                    { 11, "movie" },
+                    { 12, "music" },
+                    { 15, "videoGame" },
+                    { 18, "computer" },
+                    { 23, "history" },
+                    { 32, "cartoon" }
+                };
+
+                var errorResponse = new
+                {
+                    Message = "Invalid category",
+                    ValidCategories = validCategories
+                };
+
+                return BadRequest(errorResponse);
+            }
+
             if (Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty))
             {
                 int count = (q.Count > 0) ? q.Count : 10;
@@ -31,9 +60,10 @@ namespace QuizGiver.Controllers
                     return Ok
                     (listOfQuestions.Results);
                 }
-                else if 
+                else if
                 (listOfQuestions.ResponseCode == 4)
                 {
+                    Console.WriteLine("Token has returned all possible questions for the specified query. Getting questions from the database");
                     return RedirectToAction(actionName: "GetQuestionFromDbBasedOnCategory");
                 }
             }
