@@ -22,43 +22,45 @@ namespace QuizGiver.Controllers
         [HttpGet]
         public async Task<IActionResult> GetQuestion([FromQuery] Question q)
         {
-            int c;
-            var isValidCategory = int.TryParse(q.Category, out c);
-            if (!isValidCategory)
+            Category categoryEnum;
+
+            if (Enum.TryParse(q.Category, out Category cat))
             {
-                return BadRequest(new { Error = "Category must be a number" });
+                categoryEnum = (Category)Enum.Parse(typeof(Category), cat.ToString());
             }
-
-            if (!Enum.IsDefined(typeof(Category), c))
+            else if (string.IsNullOrEmpty(q.Category))
             {
-                var validCategories = new Dictionary<int, string>
-                {
-                    { 10, "book" },
-                    { 11, "movie" },
-                    { 12, "music" },
-                    { 15, "videoGame" },
-                    { 18, "computer" },
-                    { 23, "history" },
-                    { 32, "cartoon" }
-                };
-
+                Console.WriteLine("Category not provided. Generating random category");
+                Array values = Enum.GetValues(typeof(Category));
+                Random rnd = new();
+                Category randomCategory = (Category)values.GetValue(rnd.Next(values.Length));
+                categoryEnum = randomCategory;
+            }
+            else
+            {
+                Console.WriteLine("Invalid category provided");
                 var errorResponse = new
                 {
                     Message = "Invalid category",
-                    ValidCategories = validCategories
+                    ValidCategories = $"{Category.book}, {Category.movie}, {Category.music}, {Category.videoGame}, {Category.computer}, {Category.history}, {Category.cartoon}"
                 };
 
                 return BadRequest(errorResponse);
             }
 
-            if (Enum.TryParse(q.Category, out Category category) && Enum.TryParse(q.Difficulty, out Difficulty difficulty))
+            int count = (q.Count > 0) ? q.Count : 10;
+            Difficulty difficulty;
+            if (!Enum.TryParse(q.Difficulty, out difficulty))
             {
-                int count = (q.Count > 0) ? q.Count : 10;
-                Questions listOfQuestions = await this._questions.GetQuestions(_httpClientFactory.CreateClient(), category, difficulty, count, HttpContext.Request.Cookies["session_token"]!);
+                difficulty = Difficulty.everyDifficulty;
+            }
+
+            try
+            {
+                Questions listOfQuestions = await this._questions.GetQuestions(_httpClientFactory.CreateClient(), categoryEnum, difficulty, count, HttpContext.Request.Cookies["session_token"]!);
                 if (listOfQuestions.ResponseCode == 0)
                 {
-                    return Ok
-                    (listOfQuestions.Results);
+                    return Ok(listOfQuestions.Results);
                 }
                 else if
                 (listOfQuestions.ResponseCode == 4)
@@ -67,6 +69,12 @@ namespace QuizGiver.Controllers
                     return RedirectToAction(actionName: "GetQuestionFromDbBasedOnCategory");
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+
             return BadRequest();
         }
         [HttpGet]
